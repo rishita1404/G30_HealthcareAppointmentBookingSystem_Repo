@@ -1,0 +1,4 @@
+# Exclude virtual environment folder
+myenv/
+# Exclude database file
+website.db

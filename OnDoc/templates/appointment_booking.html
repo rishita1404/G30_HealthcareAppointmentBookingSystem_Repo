@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book an Appointment - OnDoc</title>
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f7fa;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Header styles */
+        header {
+            background-color:  #0f766e;
+            color: white;
+            padding: 20px 0;
+        }
+        
+        .site-title {
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+        
+        .site-description {
+            font-size: 16px;
+            opacity: 0.8;
+        }
+        
+        /* Doctor profile section */
+        .doctor-profile {
+            display: flex;
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            margin: 30px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .doctor-image {
+            width: 200px;
+            background-color: #ecf0f1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .doctor-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .doctor-details {
+            flex: 1;
+            padding: 25px;
+        }
+        
+        .doctor-name {
+            font-size: 24px;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        
+        .doctor-specialty {
+            color:  #0f766e;
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+        
+        .doctor-info {
+            margin-bottom: 15px;
+        }
+        
+        .doctor-info p {
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .doctor-info i {
+            margin-right: 10px;
+            color: #7f8c8d;
+            min-width: 20px;
+            text-align: center;
+        }
+        
+        .doctor-rating {
+            margin: 15px 0;
+        }
+        
+        .stars {
+            color: #f39c12;
+            font-size: 18px;
+            margin-right: 5px;
+        }
+        
+        .reviews-count {
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+        
+        /* Booking section */
+        .booking-section {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .booking-header {
+            background-color: #0f766e;
+            color: white;
+            padding: 15px 20px;
+        }
+        
+        .booking-title {
+            font-size: 20px;
+            font-weight: 500;
+        }
+        
+        .booking-content {
+            padding: 25px;
+        }
+        
+        .booking-instructions {
+            margin-bottom: 20px;
+            color: #555;
+        }
+        
+        .calendar-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .month {
+            flex: 1;
+            min-width: 280px;
+        }
+        
+        .month-title {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #2c3e50;
+            text-align: center;
+        }
+        
+        .calendar {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .calendar th {
+            padding: 10px;
+            text-align: center;
+            font-weight: normal;
+            color: #7f8c8d;
+        }
+        
+        .calendar td {
+            padding: 8px;
+            text-align: center;
+        }
+        
+        .date-button {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 1px solid #ddd;
+            background-color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .date-button:hover:not(:disabled) {
+            background-color: #f0f7ff;
+            border-color:  #0f766e;
+        }
+        
+        .date-button:disabled {
+            background-color: #f7f7f7;
+            color: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .date-button.selected {
+            background-color:  #0f766e;
+            color: white;
+            border-color:  #0f766e;
+        }
+        
+        .time-slots {
+            margin-bottom: 30px;
+        }
+        
+        .time-slots-title {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color:  #0f766e;
+        }
+        
+        .time-slots-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 10px;
+        }
+        
+        .time-slot {
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .time-slot:hover:not(.unavailable) {
+            background-color: #f0f7ff;
+            border-color:  #0f766e;
+        }
+        
+        .time-slot.selected {
+            background-color:  #0f766e;
+            color: white;
+            border-color:  #0f766e;
+        }
+        
+        .time-slot.unavailable {
+            background-color: #f7f7f7;
+            color: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .appointment-form {
+            margin-top: 30px;
+        }
+        
+        .form-title {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            color: #2c3e50;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+        
+        .form-select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+        }
+        
+        .form-textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .form-check {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .form-check-input {
+            margin-right: 10px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .btn-primary {
+            background-color:  #0f766e;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color:  #0f766e;
+        }
+        
+        .btn-lg {
+            padding: 14px 28px;
+            font-size: 18px;
+        }
+        
+        .summary-section {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+        
+        .summary-title {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+        
+        .summary-item {
+            display: flex;
+            margin-bottom: 10px;
+        }
+        
+        .summary-label {
+            font-weight: bold;
+            width: 150px;
+            color: #2c3e50;
+        }
+        
+        .summary-value {
+            flex: 1;
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            border-radius: 8px;
+            max-width: 500px;
+            width: 90%;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .success-icon {
+            font-size: 60px;
+            color: #2ecc71;
+            margin-bottom: 20px;
+        }
+        
+        .modal-title {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+        
+        .modal-text {
+            margin-bottom: 25px;
+            color: #555;
+        }
+        /* Footer Styles */
+footer {
+    background-color: #1f2937; /* Dark gray */
+    color: white;
+    padding: 3rem 1.5rem; /* Equivalent to py-12 */
+}
+
+footer h3, footer h4 {
+    color: #2dd4bf; /* Teal color */
+}
+
+footer p {
+    color: #9ca3af; /* Light gray */
+}
+
+footer .social-icons a {
+    color: #9ca3af; /* Light gray */
+    transition: color 0.3s ease;
+}
+
+footer .social-icons a:hover {
+    color: #2dd4bf; /* Teal color on hover */
+}
+
+footer ul {
+    list-style-type: none; /* Remove bullet points */
+    padding: 0; /* Remove default padding */
+}
+
+footer ul li {
+    margin-bottom: 0.5rem; /* Space between list items */
+}
+
+footer ul li a {
+    color: #9ca3af; /* Light gray */
+    transition: color 0.3s ease;
+}
+
+footer ul li a:hover {
+    color: #2dd4bf; /* Teal color on hover */
+}
+
+footer .border-t {
+    border-top: 1px solid #374151; /* Darker gray for the border */
+}
+
+footer .text-center {
+    text-align: center;
+}
+
+footer .text-gray-400 {
+    color: #9ca3af; /* Light gray */
+}
+
+/* General Styles */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f0fdfa; /* Light background */
+    color: #134e4a; /* Dark text */
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 1200px; /* Max width for the container */
+    margin: 0 auto; /* Center the container */
+    padding: 0 1.5rem; /* Padding for the container */
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    footer {
+        padding: 2rem 1rem; /* Adjust padding for smaller screens */
+    }
+}
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .doctor-profile {
+                flex-direction: column;
+            }
+            
+            .doctor-image {
+                width: 100%;
+                height: 200px;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1 class="site-title">OnDoc</h1>
+        </div>
+    </header>
+    
+    <main class="container">
+        <section class="doctor-profile">
+            <div class="doctor-image">
+                <img src="/api/placeholder/200/300?text=Dr.%20Sarah%20Johnson" alt="Dr. Barbara Brown">
+            </div>
+            <div class="doctor-details">
+                <h1 class="doctor-name">Dr. Barbara Brown</h1>
+                <p class="doctor-specialty">Endocrinology</p>
+                
+                <div class="doctor-info">
+                    <p><i class="fas fa-hospital"></i> North City Health Center</p>
+                    <p><i class="fas fa-map-marker-alt"></i> 123 Medical Drive, Suite 300, North City</p>
+                    <p><i class="fas fa-phone"></i> (555) 123-4567</p>
+                    <p><i class="fas fa-envelope"></i> dr.brown@ondoc.com</p>
+                </div>
+                
+                <div class="doctor-rating">
+                    <span class="stars">★★★★☆</span>
+                    <span class="reviews-count">(128 reviews)</span>
+                </div>
+                
+                <p>Dr. Brown is a board-certified Endocrinology with over 10 years of experience in medical and cosmetic dermatology. She specializes in skin cancer screening, acne treatment, and anti-aging procedures.</p>
+            </div>
+        </section>
+        
+        <section class="booking-section">
+            <div class="booking-header">
+                <h2 class="booking-title">Book an Appointment</h2>
+            </div>
+            <div class="booking-content">
+                <p class="booking-instructions">Select a date and time that works for you. Appointments are typically 30 minutes long.</p>
+                
+                <div class="calendar-wrapper">
+                    <div class="month">
+                        <h3 class="month-title">February 2025</h3>
+                        <table class="calendar">
+                            <thead>
+                                <tr>
+                                    <th>Su</th>
+                                    <th>Mo</th>
+                                    <th>Tu</th>
+                                    <th>We</th>
+                                    <th>Th</th>
+                                    <th>Fr</th>
+                                    <th>Sa</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td><button class="date-button" disabled>1</button></td>
+                                </tr>
+                                <tr>
+                                    <td><button class="date-button" disabled>2</button></td>
+                                    <td><button class="date-button" disabled>3</button></td>
+                                    <td><button class="date-button" disabled>4</button></td>
+                                    <td><button class="date-button" disabled>5</button></td>
+                                    <td><button class="date-button" disabled>6</button></td>
+                                    <td><button class="date-button" disabled>7</button></td>
+                                    <td><button class="date-button" disabled>8</button></td>
+                                </tr>
+                                <tr>
+                                    <td><button class="date-button" disabled>9</button></td>
+                                    <td><button class="date-button" disabled>10</button></td>
+                                    <td><button class="date-button" disabled>11</button></td>
+                                    <td><button class="date-button" disabled>12</button></td>
+                                    <td><button class="date-button" disabled>13</button></td>
+                                    <td><button class="date-button" disabled>14</button></td>
+                                    <td><button class="date-button" disabled>15</button></td>
+                                </tr>
+                                <tr>
+                                    <td><button class="date-button">16</button></td>
+                                    <td><button class="date-button selected">17</button></td>
+                                    <td><button class="date-button">18</button></td>
+                                    <td><button class="date-button">19</button></td>
+                                    <td><button class="date-button">20</button></td>
+                                    <td><button class="date-button">21</button></td>
+                                    <td><button class="date-button">22</button></td>
+                                </tr>
+                                <tr>
+                                    <td><button class="date-button">23</button></td>
+                                    <td><button class="date-button">24</button></td>
+                                    <td><button class="date-button">25</button></td>
+                                    <td><button class="date-button">26</button></td>
+                                    <td><button class="date-button">27</button></td>
+                                    <td><button class="date-button">28</button></td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="month">
+                        <h3 class="month-title">March 2025</h3>
+                        <table class="calendar">
+                            <thead>
+                                <tr>
+                                    <th>Su</th>
+                                    <th>Mo</th>
+                                    <th>Tu</th>
+                                    <th>We</th>
+                                    <th>Th</th>
+                                    <th>Fr</th>
+                                    <th>Sa</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td><button class="date-button">1</button></td>
+                                </tr>
+                                <tr>
+                                    <td><button class="date-button">2</button></td>
+                                    <td><button class="date-button">3</button></td>
+                                    <td><button class="date-button">4</button></td>
+                                    <td><button class="date-button">5</button></td>
+                                    <td><button class="date-button">6</button></td>
+                                    <td><button class="date-button">7</button></td>
+                                    <td><button class="date-button">8</button></td>
+                                </tr>
+                                <tr>
+                                    <td><button class="date-button">9</button></td>
+                                    <td><button class="date-button">10</button></td>
+                                    <td><button class="date-button">11</button></td>
+                                    <td><button class="date-button">12</button></td>
+                                    <td><button class="date-button">13</button></td>
+                                    <td><button class="date-button">14</button></td>
+                                    <td><button class="date-button">15</button></td>
+                                </tr>
+                                <tr>
+                                    <td><button class="date-button">16</button></td>
+                                    <td><button class="date-button">17</button></td>
+                                    <td><button class="date-button">18</button></td>
+                                    <td><button class="date-button">19</button></td>
+                                    <td><button class="date-button">20</button></td>
+                                    <td><button class="date-button">21</button></td>
+                                    <td><button class="date-button">22</button></td>
+                                </tr>
+                                <tr>
+                                    <td><button class="date-button">23</button></td>
+                                    <td><button class="date-button">24</button></td>
+                                    <td><button class="date-button">25</button></td>
+                                    <td><button class="date-button">26</button></td>
+                                    <td><button class="date-button">27</button></td>
+                                    <td><button class="date-button">28</button></td>
+                                    <td><button class="date-button">29</button></td>
+                                </tr>
+                                <tr>
+                                    <td><button class="date-button">30</button></td>
+                                    <td><button class="date-button">31</button></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="time-slots">
+                    <h3 class="time-slots-title">Available time slots for Monday, February 17, 2025</h3>
+                    <div class="time-slots-grid">
+                        <div class="time-slot unavailable">8:00 AM</div>
+                        <div class="time-slot unavailable">8:30 AM</div>
+                        <div class="time-slot">9:00 AM</div>
+                        <div class="time-slot selected">9:30 AM</div>
+                        <div class="time-slot">10:00 AM</div>
+                        <div class="time-slot">10:30 AM</div>
+                        <div class="time-slot unavailable">11:00 AM</div>
+                        <div class="time-slot unavailable">11:30 AM</div>
+                        <div class="time-slot unavailable">12:00 PM</div>
+                        <div class="time-slot unavailable">12:30 PM</div>
+                        <div class="time-slot">1:00 PM</div>
+                        <div class="time-slot">1:30 PM</div>
+                        <div class="time-slot">2:00 PM</div>
+                        <div class="time-slot">2:30 PM</div>
+                        <div class="time-slot unavailable">3:00 PM</div>
+                        <div class="time-slot">3:30 PM</div>
+                        <div class="time-slot">4:00 PM</div>
+                        <div class="time-slot unavailable">4:30 PM</div>
+                    </div>
+                </div>
+                
+                <form class="appointment-form" id="appointment-form">
+                    <h3 class="form-title">Your Information</h3>
+                    
+                    <div class="form-group">
+                        <label for="fullName" class="form-label">Full Name</label>
+                        <input type="text" id="fullName" name="fullName" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email" class="form-label">Email Address</label>
+                        <input type="email" id="email" name="email" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone" class="form-label">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="visitReason" class="form-label">Reason for Visit</label>
+                        <select id="visitReason" name="visitReason" class="form-select" required>
+                            <option value="">Select a reason</option>
+                            <option value="new-patient">New Patient Consultation</option>
+                            <option value="follow-up">Follow-up Appointment</option>
+                            <option value="skin-check">Annual Skin Check</option>
+                            <option value="acne">Acne Treatment</option>
+                            <option value="rash">Rash or Skin Irritation</option>
+                            <option value="cosmetic">Cosmetic Consultation</option>
+                            <option value="other">Other (please specify)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="notes" class="form-label">Additional Notes (optional)</label>
+                        <textarea id="notes" name="notes" class="form-control form-textarea"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="form-check">
+                            <input type="checkbox" id="insuranceCheck" name="insuranceCheck" class="form-check-input" required>
+                            <label for="insuranceCheck">I'll bring my insurance card to the appointment</label>
+                        </div>
+                        <div class="form-check">
+                            <input type="checkbox" id="termsCheck" name="termsCheck" class="form-check-input" required>
+                            <label for="termsCheck">I agree to the cancellation policy and terms of service</label>
+                        </div>
+                    </div>
+                    
+                    <div class="summary-section">
+                        <h3 class="summary-title">Appointment Summary</h3>
+                        <div class="summary-item">
+                            <span class="summary-label">Doctor:</span>
+                            <span class="summary-value">Dr. Barbara Brown (Endocrinology)</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">Date:</span>
+                            <span class="summary-value">Monday, February 17, 2025</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">Time:</span>
+                            <span class="summary-value">9:30 AM</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">Location:</span>
+                            <span class="summary-value">North City Health Center, 123 Medical Drive, Suite 300</span>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-lg" style="width: 100%; margin-top: 20px;">Confirm Appointment</button>
+                </form>
+            </div>
+        </section>
+    </main>
+    
+    <!-- Confirmation Modal -->
+    <div class="modal" id="confirmationModal">
+        <div class="modal-content">
+            <div class="success-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h2 class="modal-title">Appointment Confirmed!</h2>
+            <p class="modal-text">Your appointment with Dr. Barbara Brown has been scheduled for Monday, February 17, 2025 at 9:30 AM. We've sent a confirmation to your email.</p>
+            <button class="btn btn-primary" onclick="window.location.href='index.html'">Return to Home</button>
+        </div>
+    </div>
+    <!-- <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-semibold mb-4 text-teal-400">OnDoc</h3>
+                    <p class="text-gray-400 mb-4">Making healthcare accessible to everyone, everywhere.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" aria-label="Facebook" class="text-gray-400 hover:text-teal-300 transition">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" aria-label="Twitter" class="text-gray-400 hover:text-teal-300 transition">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" aria-label="Instagram" class="text-gray-400 hover:text-teal-300 transition">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" aria-label="LinkedIn" class="text-gray-400 hover:text-teal-300 transition">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 text-teal-400">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#find-doctors" class="text-gray-400 hover:text-teal-300 transition">Find Doctors</a></li>
+                        <li><a href="#services" class="text-gray-400 hover:text-teal-300 transition">Our Services</a></li>
+                        <li><a href="#about" class="text-gray-400 hover:text-teal-300 transition">About Us</a></li> -->
+                        <!-- <li><a href="#testimonials" class="text-gray-400 hover:text-teal-300 transition">Testimonials</a></li>
+                    </ul> -->
+                <!-- </div> -->
+                <!-- <div>
+                    <h4 class="text-lg font-semibold mb-4 text-teal-400">Support</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-teal-300 transition">Help Center</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-teal-300 transition">FAQs</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-teal-300 transition">Contact Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-teal-300 transition">Feedback</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 text-teal-400">Legal</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-teal-300 transition">Privacy Policy</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-teal-300 transition">Terms of Service</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-teal-300 transition">Cookie Policy</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-teal-300 transition">HIPAA Compliance</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
+                <p>&copy; 2025 OnDoc. All rights reserved.</p>
+            </div>
+        </div>
+    </footer> -->
+    
+    <script>
+        // Simple date selection functionality
+        document.querySelectorAll('.date-button:not([disabled])').forEach(button => {
+            button.addEventListener('click', function() {
+                document.querySelectorAll('.date-button').forEach(btn => {
+                    btn.classList.remove('selected');
+                });
+                this.classList.add('selected');
+                
+                // Update time slots heading (in a real app, you'd fetch available slots for the selected date)
+                const monthName = this.closest('.month').querySelector('.month-title').textContent;
+                const day = this.textContent;
+                document.querySelector('.time-slots-title').textContent = 
+                    'Available time slots for ${day} ${monthName}';
+            });
+        });
+        
+        // Time slot selection
+        document.querySelectorAll('.time-slot:not(.unavailable)').forEach(slot => {
+            slot.addEventListener('click', function() {
+                document.querySelectorAll('.time-slot').forEach(s => {
+                    s.classList.remove('selected');
+                });
+                this.classList.add('selected');
+                
+                // Update summary (in a real app, you'd update this with the selected date and time)
+                const timeValue = this.textContent;
+                document.querySelector('.summary-item:nth-child(3) .summary-value').textContent = timeValue;
+            });
+        });
+        
+        // Form submission
+        document.getElementById('appointment-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Show confirmation modal
+            document.getElementById('confirmationModal').style.display = 'flex';
+        });
+        
+        // Close modal when clicking outside
+        document.getElementById('confirmationModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

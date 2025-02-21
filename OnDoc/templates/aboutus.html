@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>OnDoc - About Us</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        :root {
+            --primary: #2fbba8; /* Primary color */
+            --primary-dark: #279a90; /* Darker shade of primary */
+            --primary-light: #99f6e4; /* Lighter shade of primary */
+            --secondary: #f0fdfa; /* Background color */
+            --accent: #ccfbf1; /* Accent color */
+            --text-dark: #134e4a; /* Dark text color */
+            --text-light: #e3ebe9; /* Light text color */
+            --gray-dark: #1f2937; /* Dark gray color */
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--secondary);
+            color: var(--text-dark);
+            min-height: 100vh;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+        
+        /* New styles for improved visibility */
+        .hero-section {
+            background: linear-gradient(to right, var(--primary), var(--primary-dark));
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+        }
+
+        .mission-section {
+            background-color: var(--accent);
+            border: 1px solid var(--primary);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg fixed w-full z-40">
+        <div class="container mx-auto px-6 py-3">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <a class="text-2xl font-bold text-teal-500" href="/" aria-label="OnDoc Homepage">
+                        <i class="fas fa-hospital-user mr-2" aria-hidden="true"></i>
+                        OnDoc
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-grow pt-20 pb-12">
+        <!-- Hero Section -->
+        <section class="relative hero-section py-20">
+            <div class="container mx-auto px-6">
+                <div class="max-w-3xl mx-auto text-center">
+                    <h1 class="text-4xl md:text-5xl font-bold mb-6 text-white">Transforming Healthcare Access</h1>
+                    <p class="text-xl text-white mb-8">Connecting patients with healthcare professionals through innovative digital solutions.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Mission Section -->
+        <section class="mission-section py-16">
+            <div class="container mx-auto px-6">
+                <div class="max-w-4xl mx-auto">
+                    <h2 class="text-3xl font-bold text-teal-700 mb-8 text-center">Our Mission</h2>
+                    <p class="text-lg text-gray-700 mb-8 text-center">
+                        At OnDoc, we're committed to making healthcare accessible to everyone, everywhere. Through our platform, we bridge the gap between patients and healthcare providers, ensuring quality care is just a click away.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Values Section -->
+        <section class="bg-white py-16">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl font-bold text-teal-700 mb-12 text-center">Our Core Values</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="text-center p-6">
+                        <div class="text-teal-500 text-4xl mb-4">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-4">Patient-Centered Care</h3>
+                        <p class="text-gray-600">We put patients first, ensuring their needs and comfort are at the heart of everything we do.</p>
+                    </div>
+                    <div class="text-center p-6">
+                        <div class="text-teal-500 text-4xl mb-4">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-4">Trust & Security</h3>
+                        <p class="text-gray-600">We maintain the highest standards of privacy and security in handling patient information.</p>
+                    </div>
+                    <div class="text-center p-6">
+                        <div class="text-teal-500 text-4xl mb-4">
+                            <i class="fas fa-infinity"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-4">Continuous Innovation</h3>
+                        <p class="text-gray-600">We constantly evolve our platform to provide better healthcare solutions.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Team Section -->
+        <section class="py-16">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl font-bold text-teal-700 mb-12 text-center">Our Leadership Team</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="text-center">
+                        <div class="w-48 h-48 mx-auto mb-4 rounded-full overflow-hidden bg-gray-200">
+                            <img src="/static/images/img1.jpeg" alt="Rishita" class="w-full h-full object-cover">
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Rishita</h3>
+                        <p class="text-teal-600 mb-4">Leader</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-48 h-48 mx-auto mb-4 rounded-full overflow-hidden bg-gray-200">
+                            <img src="/static/images/img2.jpeg" alt="Girisha" class="w-full h-full object-cover">
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Girisha</h3>
+                        <p class="text-teal-600 mb-4">Member</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-48 h-48 mx-auto mb-4 rounded-full overflow-hidden bg-gray-200">
+                            <img src="/static/images/img3.jpg" alt="Lipika" class="w-full h-full object-cover">
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Lipika</h3>
+                        <p class="text-teal-600 mb-4">Member</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-semibold mb-4 text-teal-400">OnDoc</h3>
+                    <p class="text-gray-400 mb-4">Making healthcare accessible to everyone, everywhere.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" aria-label="Facebook" class="text-gray-400 hover:text-teal-300 transition">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" aria-label="Twitter" class="text-gray-400 hover:text-teal-300 transition">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" aria-label="Instagram" class="text-gray-400 hover:text-teal-300 transition">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" aria-label="LinkedIn" class="text-gray-400 hover:text-teal-300 transition">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 text-teal-400">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#find-doctors" class="text-gray-400 hover:text-teal-300 transition">Find Doctors</a></li>
+                        <li><a href="#services" class="text-gray-400 hover:text-teal-300 transition">Our Services</a></li>
+                        <li><a href="#about" class="text-gray-400 hover:text-teal-300 transition">About Us</a></li>
+                        <li><a href="#testimonials" class="text-gray-400 hover:text-teal-300 transition">Testimonials</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 text-teal-400">Support</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-teal-300 transition">Help Center</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-teal-300 transition">FAQs</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-teal-300 transition">Contact Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-teal-300 transition">Feedback</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 text-teal-400">Legal</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-teal-300 transition">Privacy Policy</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-teal-300 transition">Terms of Service</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-teal-300 transition">Cookie Policy</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-teal-300 transition">HIPAA Compliance</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
+                <p>&copy; 2025 OnDoc. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Healthcare Appointment Booking - Doctor Directory</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        :root {
+            --primary: #2dd4bf;
+            --primary-dark: #0f766e;
+            --primary-light: #99f6e4;
+            --secondary: #f0fdfa;
+            --accent: #ccfbf1;
+            --text-dark: #134e4a;
+            --text-light: #f0fdfa;
+            --gray-dark: #1f2937;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--secondary);
+            color: var(--text-dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+        
+        .nav-link {
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--primary);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .bg-pattern {
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%232dd4bf' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        /* Search and filter section */
+        .search-filter {
+            background-color: white;
+            padding: 20px;
+            border-radius: 1rem;
+            margin: 20px 0;
+            box-shadow: 0 10px 15px -3px rgba(15, 118, 110, 0.1), 0 4px 6px -2px rgba(15, 118, 110, 0.05);
+        }
+        
+        .search-bar {
+            display: flex;
+            margin-bottom: 15px;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px 0 0 4px;
+            font-size: 16px;
+        }
+        
+        .search-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(45, 212, 191, 0.2);
+            outline: none;
+        }
+        
+        .search-button {
+            padding: 10px 20px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .search-button:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .filter-select {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            min-width: 150px;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .filter-select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(45, 212, 191, 0.2);
+            outline: none;
+        }
+        
+        /* Doctor list section */
+        .doctors-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .doctor-card {
+            background-color: white;
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 10px 15px -3px rgba(15, 118, 110, 0.1), 0 4px 6px -2px rgba(15, 118, 110, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .doctor-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(15, 118, 110, 0.15);
+        }
+        
+        .doctor-image {
+            height: 200px;
+            background-color: #ecf0f1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .doctor-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .doctor-info {
+            padding: 15px;
+        }
+        
+        .doctor-name {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--text-dark);
+        }
+        
+        .doctor-specialty {
+            color: var(--primary);
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .doctor-location, .doctor-availability {
+            font-size: 14px;
+            color: #64748b;
+            margin-bottom: 5px;
+        }
+        
+        .doctor-rating {
+            display: flex;
+            align-items: center;
+            margin: 8px 0;
+        }
+        
+        .stars {
+            color: #f59e0b;
+            margin-right: 5px;
+        }
+        
+        .rating-number {
+            font-size: 14px;
+            color: #64748b;
+        }
+        
+        .book-button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-align: center;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        
+        .book-button:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+        
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin: 30px 0;
+            gap: 5px;
+        }
+        
+        .page-number {
+            display: inline-block;
+            padding: 8px 12px;
+            border-radius: 4px;
+            background-color: white;
+            color: var(--text-dark);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(15, 118, 110, 0.1);
+        }
+        
+        .page-number.active {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .page-number:hover:not(.active) {
+            background-color: var(--accent);
+        }
+        
+        /* Results count */
+        .results-count {
+            margin-bottom: 20px;
+            font-size: 16px;
+            color: #64748b;
+        }
+        
+        /* Footer styling */
+        footer {
+            background-color: var(--gray-dark);
+            color: white;
+            margin-top: 40px;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .doctors-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .search-filter {
+                padding: 15px;
+            }
+            
+            .filters {
+                flex-direction: column;
+            }
+            
+            .filter-select {
+                width: 100%;
+            }
+            
+            .container {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-pattern">
+    <nav class="bg-white shadow-lg fixed w-full z-40">
+        <div class="container mx-auto px-6 py-3">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <a class="text-2xl font-bold text-teal-500" href="index.html" aria-label="HealthCare Homepage">
+                        <i class="fas fa-hospital-user mr-2" aria-hidden="true"></i>
+                        OnDoc
+                    </a>
+                </div>
+                <button id="open-menu" class="md:hidden text-gray-500 hover:text-gray-700" aria-label="Open menu">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+<br><br>
+    <main class="container pt-20">
+        <section class="search-filter">
+            <div class="search-bar">
+                <input type="text" class="search-input" placeholder="Search by doctor name, specialty, or location...">
+                <button class="search-button">Search</button>
+            </div>
+            <div class="filters">
+                <select class="filter-select" id="specialty-filter">
+                    <option value="">All Specialties</option>
+                    <option value="Cardiology">Cardiology</option>
+                    <option value="Dermatology">Dermatology</option>
+                    <option value="Endocrinology">Endocrinology</option>
+                    <option value="Neurology">Neurology</option>
+                    <option value="Orthopedics">Orthopedics</option>
+                    <option value="Pediatrics">Pediatrics</option>
+                    <option value="Psychiatry">Psychiatry</option>
+                    <option value="Oncology">Oncology</option>
+                    <option value="Gynecology">Gynecology</option>
+                    <option value="Urology">Urology</option>
+                </select>
+                <select class="filter-select" id="location-filter">
+                    <option value="">All Locations</option>
+                    <option value="Downtown">Downtown</option>
+                    <option value="North">North City</option>
+                    <option value="South">South City</option>
+                    <option value="East">East Side</option>
+                    <option value="West">West Side</option>
+                </select>
+                <select class="filter-select" id="availability-filter">
+                    <option value="">Any Availability</option>
+                    <option value="Today">Today</option>
+                    <option value="Tomorrow">Tomorrow</option>
+                    <option value="This Week">This Week</option>
+                    <option value="This Weekend">This Weekend</option>
+                </select>
+                <select class="filter-select" id="rating-filter">
+                    <option value="">Any Rating</option>
+                    <option value="5">5 Stars</option>
+                    <option value="4">4+ Stars</option>
+                    <option value="3">3+ Stars</option>
+                </select>
+            </div>
+        </section>
+        
+        <div class="results-count"><span id="doctor-count">0</span> doctors found</div>
+        
+        <section class="doctors-list" id="doctors-container">
+            <!-- Doctors will be generated here -->
+        </section>
+        
+        <div class="pagination" id="pagination">
+            <!-- Pagination will be generated here -->
+        </div>
+    </main>
+
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-semibold mb-4 text-teal-400">OnDoc</h3>
+                    <p class="text-gray-400 mb-4">Making healthcare accessible to everyone, everywhere.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" aria-label="Facebook" class="text-gray-400 hover:text-teal-300 transition">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" aria-label="Twitter" class="text-gray-400 hover:text-teal-300 transition">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" aria-label="Instagram" class="text-gray-400 hover:text-teal-300 transition">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" aria-label="LinkedIn" class="text-gray-400 hover:text-teal-300 transition">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 text-teal-400">Quick Links</h4>
+                            <ul class="space-y-2">
+                                <li><a href="#find-doctors" class="text-gray-400 hover:text-teal-300 transition">Find Doctors</a></li>
+                                <li><a href="#services" class="text-gray-400 hover:text-teal-300 transition">Our Services</a></li>
+                                <li><a href="#about" class="text-gray-400 hover:text-teal-300 transition">About Us</a></li>
+                                <li><a href="#testimonials" class="text-gray-400 hover:text-teal-300 transition">Testimonials</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="text-lg font-semibold mb-4 text-teal-400">Support</h4>
+                            <ul class="space-y-2">
+                                <li><a href="#" class="text-gray-400 hover:text-teal-300 transition">Help Center</a></li>
+                                <li><a href="#" class="text-gray-400 hover:text-teal-300 transition">FAQs</a></li>
+                                <li><a href="#" class="text-gray-400 hover:text-teal-300 transition">Contact Us</a></li>
+                                <li><a href="#" class="text-gray-400 hover:text-teal-300 transition">Feedback</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="text-lg font-semibold mb-4 text-teal-400">Legal</h4>
+                            <ul class="space-y-2">
+                                <li><a href="#" class="text-gray-400 hover:text-teal-300 transition">Privacy Policy</a></li>
+                                <li><a href="#" class="text-gray-400 hover:text-teal-300 transition">Terms of Service</a></li>
+                                <li><a href="#" class="text-gray-400 hover:text-teal-300 transition">Cookie Policy</a></li>
+                                <li><a href="#" class="text-gray-400 hover:text-teal-300 transition">HIPAA Compliance</a></li>
+                            </ul>
+                        </div>
+                        </div>
+                        <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
+                        <p>&copy; 2025 OnDoc. All rights reserved.</p>
+                        </div>
+                        </div>
+                        </footer>
+                        
+                        <script>
+                        // Doctor data generator
+                        function generateDoctors(count) {
+                        const firstNames = ['John', 'Sarah', 'Michael', 'Emily', 'Robert', 'Lisa', 'David', 'Jennifer', 'Andrew', 'Maria', 'James', 'Jessica', 'Daniel', 'Michelle', 'William', 'Elizabeth', 'Richard', 'Karen', 'Joseph', 'Linda', 'Thomas', 'Patricia', 'Charles', 'Susan', 'Christopher', 'Margaret', 'Matthew', 'Barbara', 'Anthony', 'Sandra'];
+                        const lastNames = ['Smith', 'Johnson', 'Williams', 'Brown', 'Jones', 'Garcia', 'Miller', 'Davis', 'Rodriguez', 'Martinez', 'Hernandez', 'Lopez', 'Gonzalez', 'Wilson', 'Anderson', 'Thomas', 'Taylor', 'Moore', 'Jackson', 'Martin', 'Lee', 'Perez', 'Thompson', 'White', 'Harris', 'Sanchez', 'Clark', 'Ramirez', 'Lewis', 'Robinson'];
+                        const specialties = ['Cardiology', 'Dermatology', 'Endocrinology', 'Neurology', 'Orthopedics', 'Pediatrics', 'Psychiatry', 'Oncology', 'Gynecology', 'Urology', 'Gastroenterology', 'Ophthalmology', 'Pulmonology', 'Nephrology', 'Rheumatology'];
+                        const locations = [
+                        'Downtown Medical Center', 
+                        'North City Health Center', 
+                        'West Side Children\'s Hospital', 
+                        'Medical University Hospital', 
+                        'South City Sports Medicine Center', 
+                        'East Side Mental Health Clinic', 
+                        'Diabetes & Hormone Center',
+                        'Heart Health Institute',
+                        'Skin & Beauty Medical Center',
+                        'Community Health Partners'
+                        ];
+                        const availabilities = ['Today', 'Tomorrow', 'Wednesday', 'Thursday', 'Friday', 'Next Monday', 'This Weekend'];
+                        
+                        let doctors = [];
+                        
+                        for (let i = 0; i < count; i++) {
+                        const firstName = firstNames[Math.floor(Math.random() * firstNames.length)];
+                        const lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
+                        const specialty = specialties[Math.floor(Math.random() * specialties.length)];
+                        const location = locations[Math.floor(Math.random() * locations.length)];
+                        const availability = availabilities[Math.floor(Math.random() * availabilities.length)];
+                        const rating = (Math.floor(Math.random() * 20) + 30) / 10; // Generates ratings between 3.0 and 5.0
+                        
+                        doctors.push({
+                            id: i + 1,
+                            name: `Dr. ${firstName} ${lastName}`,
+                            specialty: specialty,
+                            location: location,
+                            availability: availability,
+                            rating: rating,
+                            imgId: Math.floor(Math.random() * 1000) // For generating different placeholder images
+                        });
+                        }
+                        
+                        return doctors;
+                        }
+                        
+                        // Generate star rating HTML
+                        function generateStars(rating) {
+                        let stars = '';
+                        const fullStars = Math.floor(rating);
+                        const hasHalfStar = rating - fullStars >= 0.5;
+                        
+                        for (let i = 0; i < fullStars; i++) {
+                        stars += '★';
+                        }
+                        
+                        if (hasHalfStar) {
+                        stars += '★';
+                        }
+                        
+                        for (let i = 0; i < 5 - Math.ceil(rating); i++) {
+                        stars += '☆';
+                        }
+                        
+                        return stars;
+                        }
+                        
+                        // Create doctor card HTML
+                        function createDoctorCard(doctor) {
+                        return `
+                        <div class="doctor-card" data-specialty="${doctor.specialty}" data-location="${doctor.location}" data-availability="${doctor.availability}" data-rating="${doctor.rating}">
+                            <div class="doctor-image">
+                                <img src="/api/placeholder/300/200?text=${encodeURIComponent(doctor.name)}" alt="${doctor.name}">
+                            </div>
+                            <div class="doctor-info">
+                                <h2 class="doctor-name">${doctor.name}</h2>
+                                <p class="doctor-specialty">${doctor.specialty}</p>
+                                <p class="doctor-location">${doctor.location}</p>
+                                <p class="doctor-availability">Next Available: ${doctor.availability}</p>
+                                <div class="doctor-rating">
+                                    <span class="stars">${generateStars(doctor.rating)}</span>
+                                    <span class="rating-number">(${doctor.rating.toFixed(1)})</span>
+                                </div>
+                                <a href="{{url_for('appointment_booking')}}" class="book-button">Book Appointment</a>
+                            </div>
+                        </div>
+                        `;
+                        }
+                        
+                        // Initialize the page
+                        function initPage() {
+                        // Generate 120 doctors
+                        const allDoctors = generateDoctors(120);
+                        const doctorsPerPage = 12;
+                        let currentPage = 1;
+                        let filteredDoctors = [...allDoctors];
+                        
+                        // Update doctor count
+                        document.getElementById('doctor-count').textContent = allDoctors.length;
+                        
+                        // Function to display doctors for the current page
+                        function displayDoctors() {
+                        const container = document.getElementById('doctors-container');
+                        container.innerHTML = '';
+                        
+                        const startIndex = (currentPage - 1) * doctorsPerPage;
+                        const endIndex = Math.min(startIndex + doctorsPerPage, filteredDoctors.length);
+                        
+                        for (let i = startIndex; i < endIndex; i++) {
+                            container.innerHTML += createDoctorCard(filteredDoctors[i]);
+                        }
+                        }
+                        
+                        // Function to update pagination
+                        function updatePagination() {
+                        const totalPages = Math.ceil(filteredDoctors.length / doctorsPerPage);
+                        const pagination = document.getElementById('pagination');
+                        pagination.innerHTML = '';
+                        
+                        // Previous page
+                        if (totalPages > 1) {
+                            const prevLink = document.createElement('a');
+                            prevLink.href = '#';
+                            prevLink.className = 'page-number';
+                            prevLink.textContent = '←';
+                            prevLink.addEventListener('click', (e) => {
+                                e.preventDefault();
+                                if (currentPage > 1) {
+                                    currentPage--;
+                                    displayDoctors();
+                                    updatePagination();
+                                }
+                            });
+                            pagination.appendChild(prevLink);
+                        }
+                        
+                        // Page numbers
+                        for (let i = 1; i <= totalPages; i++) {
+                            // Show first 3, last 3, and pages around current page
+                            if (i <= 3 || i > totalPages - 3 || (i >= currentPage - 1 && i <= currentPage + 1)) {
+                                const pageLink = document.createElement('a');
+                                pageLink.href = '#';
+                                pageLink.className = i === currentPage ? 'page-number active' : 'page-number';
+                                pageLink.textContent = i;
+                                pageLink.addEventListener('click', (e) => {
+                                    e.preventDefault();
+                                    currentPage = i;
+                                    displayDoctors();
+                                    updatePagination();
+                                });
+                                pagination.appendChild(pageLink);
+                            } else if (i === 4 && currentPage > 4) {
+                                const ellipsis = document.createElement('span');
+                                ellipsis.className = 'page-number';
+                                ellipsis.textContent = '...';
+                                pagination.appendChild(ellipsis);
+                            } else if (i === totalPages - 3 && currentPage < totalPages - 3) {
+                                const ellipsis = document.createElement('span');
+                                ellipsis.className = 'page-number';
+                                ellipsis.textContent = '...';
+                                pagination.appendChild(ellipsis);
+                            }
+                        }
+                        
+                        // Next page
+                        if (totalPages > 1) {
+                            const nextLink = document.createElement('a');
+                            nextLink.href = '#';
+                            nextLink.className = 'page-number';
+                            nextLink.textContent = '→';
+                            nextLink.addEventListener('click', (e) => {
+                                e.preventDefault();
+                                if (currentPage < totalPages) {
+                                    currentPage++;
+                                    displayDoctors();
+                                    updatePagination();
+                                }
+                            });
+                            pagination.appendChild(nextLink);
+                        }
+                        }
+                        
+                        // Filter functions
+                        function applyFilters() {
+                        const specialtyValue = document.getElementById('specialty-filter').value;
+                        const locationValue = document.getElementById('location-filter').value;
+                        const availabilityValue = document.getElementById('availability-filter').value;
+                        const ratingValue = parseInt(document.getElementById('rating-filter').value) || 0;
+                        
+                        filteredDoctors = allDoctors.filter(doctor => {
+                            if (specialtyValue && doctor.specialty !== specialtyValue) return false;
+                            if (locationValue && !doctor.location.includes(locationValue)) return false;
+                            if (availabilityValue && doctor.availability !== availabilityValue) return false;
+                            if (ratingValue && doctor.rating < ratingValue) return false;
+                            return true;
+                        });
+                        
+                        // Update doctor count
+                        document.getElementById('doctor-count').textContent = filteredDoctors.length;
+                        
+                        // Reset to first page
+                        currentPage = 1;
+                        displayDoctors();
+                        updatePagination();
+                        }
+                        
+                        // Set up event listeners for filters
+                        document.getElementById('specialty-filter').addEventListener('change', applyFilters);
+                        document.getElementById('location-filter').addEventListener('change', applyFilters);
+                        document.getElementById('availability-filter').addEventListener('change', applyFilters);
+                        document.getElementById('rating-filter').addEventListener('change', applyFilters);
+                        
+                        // Search functionality
+                        document.querySelector('.search-button').addEventListener('click', function() {
+                        const searchText = document.querySelector('.search-input').value.toLowerCase();
+                        if (searchText) {
+                            filteredDoctors = allDoctors.filter(doctor => 
+                                doctor.name.toLowerCase().includes(searchText) || 
+                                doctor.specialty.toLowerCase().includes(searchText) || 
+                                doctor.location.toLowerCase().includes(searchText)
+                            );
+                        } else {
+                            filteredDoctors = [...allDoctors];
+                        }
+                        
+                        // Update doctor count
+                        document.getElementById('doctor-count').textContent = filteredDoctors.length;
+                        
+                        // Reset to first page
+                        currentPage = 1;
+                        displayDoctors();
+                        updatePagination();
+                        });
+                        
+                        // Initial display
+                        displayDoctors();
+                        updatePagination();
+                        }
+                        
+                        // Run when DOM is fully loaded
+                        document.addEventListener('DOMContentLoaded', initPage);
+                        </script>
+</body>
+</html>

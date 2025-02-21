@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>OnDoc - Membership Plans</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --primary: #2dd4bf;
+            --primary-dark: #0f766e;
+            --primary-light: #99f6e4;
+            --secondary: #f0fdfa;
+            --accent: #ccfbf1;
+            --text-dark: #134e4a;
+            --text-light: #f0fdfa;
+            --gray-dark: #1f2937;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--secondary);
+            color: var(--text-dark);
+            min-height: 100vh;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+
+        .plan-card {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 10px 15px -3px rgba(15, 118, 110, 0.1), 0 4px 6px -2px rgba(15, 118, 110, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .plan-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(15, 118, 110, 0.2);
+        }
+
+        .plan-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .plan-price {
+            font-size: 1.25rem;
+            color: var(--text-dark);
+        }
+
+        .plan-features {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            text-align: left;
+        }
+
+        .plan-features li {
+            margin-bottom: 0.5rem;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .plan-features li::before {
+            content: '✔';
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+    <nav class="bg-white shadow-lg fixed w-full z-40">
+        <div class="container mx-auto px-6 py-3">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <a class="text-2xl font-bold text-teal-500" href="index.html" aria-label="OnDoc Homepage">
+                        <i class="fas fa-hospital-user mr-2" aria-hidden="true"></i>
+                        OnDoc
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow flex items-center justify-center px-6 pt-20 pb-12">
+        <div class="w-full max-w-4xl">
+            <h1 class="text-3xl font-bold text-teal-700 text-center mb-8">Membership Plans</h1>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="plan-card p-6 text-center">
+                    <h2 class="plan-title">Basic Plan</h2>
+                    <p class="plan-price mt-2">499/month</p>
+                    <ul class="plan-features mt-4">
+                        <li>Access to basic features</li>
+                        <li>Community support</li>
+                        <li>Monthly newsletters</li>
+                    </ul>
+                    <button class="btn-primary mt-4 w-full text-white py-2 rounded-md">Choose Plan</button>
+                </div>
+                <div class="plan-card p-6 text-center">
+                    <h2 class="plan-title">Standard Plan</h2>
+                    <p class="plan-price mt-2">999/month</p>
+                    <ul class="plan-features mt-4">
+                        <li>Access to all features</li>
+                        <li>Priority support</li>
+                        <li>Weekly newsletters</li>
+                    </ul>
+                    <button class="btn-primary mt-4 w-full text-white py-2 rounded-md">Choose Plan</button>
+                </div>
+                <div class="plan-card p-6 text-center">
+                    <h2 class="plan-title">Premium Plan</h2>
+                    <p class="plan-price mt-2">1999/month</p>
+                    <ul class="plan-features mt-4">
+                        <li>Access to all features</li>
+                        <li>24/7 support</li>
+                        <li>Personalized consultations</li>
+                      
+                       
+                    </ul>
+                    <button class="btn-primary mt-4 w-full text-white py-2 rounded-md">Choose Plan</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-semibold mb-4 text-teal-400">OnDoc</h3>
+                    <p class="text-gray-400 mb-4">Making healthcare accessible to everyone, everywhere.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" aria-label="Facebook" class="text-gray-400 hover:text-teal-300 transition">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" aria-label="Twitter" class="text-gray-400 hover:text-teal-300 transition">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" aria-label="Instagram" class="text-gray-400 hover:text-teal-300 transition">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" aria-label="LinkedIn" class="text-gray-400 hover:text-teal-300 transition">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 text-teal-400">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#find-doctors" class="text-gray-400 hover:text-teal-300 transition">Find Doctors</a></li>
+                        <li><a href="#services" class="text-gray-400 hover:text-teal-300 transition">Our Services</a></li>
+                        <li><a href="#about" class="text-gray-400 hover:text-teal-300 transition">About Us</a></li>
+                        <li><a href="#testimonials" class="text-gray-400 hover:text-teal-300 transition">Testimonials</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 text-teal-400">Support</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-teal-300 transition">Help Center</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-teal-300 transition">FAQs</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-teal-300 transition">Contact Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-teal-300 transition">Feedback</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 text-teal-400">Legal</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-teal-300 transition">Privacy Policy</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-teal-300 transition">Terms of Service</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-teal-300 transition">Cookie Policy</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-teal-300 transition">HIPAA Compliance</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
+                <p>&copy; 2025 OnDoc. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

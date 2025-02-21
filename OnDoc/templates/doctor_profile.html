@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>{{ doctor.name }}</h2>
+<p>Specialty: {{ doctor.specialty }}</p>
+<p>Location: {{ doctor.location }}</p>
+<form method="POST">
+    {{ form.hidden_tag() }}
+    <div>{{ form.date.label }} {{ form.date() }}</div>
+    <div>{{ form.submit() }}</div>
+</form>
+{% endblock %}

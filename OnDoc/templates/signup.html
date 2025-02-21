@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OnDoc - Sign Up</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+
+        :root {
+            --primary: #2dd4bf;
+            --primary-dark: #0f766e;
+            --secondary: #f0fdfa;
+            --text-dark: #134e4a;
+        }
+
+        body {
+            font-family: "Poppins", sans-serif;
+            background-color: var(--secondary);
+            color: var(--text-dark);
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .form-card {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 10px 15px -3px rgba(15, 118, 110, 0.1);
+        }
+
+        .form-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(45, 212, 191, 0.2);
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+
+    <!-- Navbar -->
+    <nav class="bg-white shadow-lg fixed w-full z-40">
+        <div class="container mx-auto px-6 py-3">
+            <a class="text-2xl font-bold text-teal-500" href="/">
+                <i class="fas fa-hospital-user mr-2"></i> OnDoc
+            </a>
+        </div>
+    </nav>
+
+    <!-- Signup Form -->
+    <main class="container mx-auto px-4 pt-24 pb-12 flex justify-center">
+        <div class="w-full max-w-md form-card p-8">
+            <h2 class="text-2xl font-bold text-center text-teal-700">Create Account</h2>
+            <form id="signup-form" class="mt-6 space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Full Name</label>
+                    <input type="text" name="full_name" class="form-input w-full px-4 py-2 border rounded-md" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Email Address</label>
+                    <input type="email" name="email" class="form-input w-full px-4 py-2 border rounded-md" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Mobile Number</label>
+                    <input type="tel" name="mobile" class="form-input w-full px-4 py-2 border rounded-md" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Date of Birth</label>
+                    <input type="date" name="date_of_birth" class="form-input w-full px-4 py-2 border rounded-md" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Gender</label>
+                    <select name="gender" class="form-input w-full px-4 py-2 border rounded-md" required>
+                        <option value="">Select Gender</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Role</label>
+                    <select name="role" class="form-input w-full px-4 py-2 border rounded-md" required>
+                        <option value="patient">Patient</option>
+                        <option value="doctor">Doctor</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Password</label>
+                    <input type="password" name="password" id="password" class="form-input w-full px-4 py-2 border rounded-md" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Confirm Password</label>
+                    <input type="password" name="confirm_password" id="confirm_password" class="form-input w-full px-4 py-2 border rounded-md" required>
+                </div>
+                <button type="submit" class="btn-primary w-full text-white font-medium py-3 px-4 rounded-md">Sign Up</button>
+            </form>
+            <p class="text-center mt-4 text-gray-600">Already have an account? <a href="/login" class="text-teal-600 hover:text-teal-800 font-medium">Login</a></p>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-semibold mb-4 text-teal-400">OnDoc</h3>
+                    <p class="text-gray-400 mb-4">Making healthcare accessible to everyone, everywhere.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" aria-label="Facebook" class="text-gray-400 hover:text-teal-300 transition">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" aria-label="Twitter" class="text-gray-400 hover:text-teal-300 transition">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" aria-label="Instagram" class="text-gray-400 hover:text-teal-300 transition">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" aria-label="LinkedIn" class="text-gray-400 hover:text-teal-300 transition">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 text-teal-400">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#find-doctors" class="text-gray-400 hover:text-teal-300 transition">Find Doctors</a></li>
+                        <li><a href="#services" class="text-gray-400 hover:text-teal-300 transition">Our Services</a></li>
+                        <li><a href="#about" class="text-gray-400 hover:text-teal-300 transition">About Us</a></li>
+                        <li><a href="#testimonials" class="text-gray-400 hover:text-teal-300 transition">Testimonials</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 text-teal-400">Support</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-teal-300 transition">Help Center</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-teal-300 transition">FAQs</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-teal-300 transition">Contact Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-teal-300 transition">Feedback</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 text-teal-400">Legal</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-teal-300 transition">Privacy Policy</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-teal-300 transition">Terms of Service</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-teal-300 transition">Cookie Policy</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-teal-300 transition">HIPAA Compliance</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
+                <p>&copy; 2025 OnDoc. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById("signup-form").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            
+            if (formData.get("password") !== formData.get("confirm_password")) {
+                alert("Passwords do not match!");
+                return;
+            }
+
+            const response = await fetch("/signup", { method: "POST", body: formData });
+            const result = await response.json();
+
+            if (result.status === "success") {
+                window.location.href = "/login"; // Redirect to login after successful signup
+            } else {
+                alert(result.message);
+            }
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit User - OnDoc</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+        :root {
+            --primary: #2dd4bf;
+            --primary-dark: #0f766e;
+            --secondary: #f0fdfa;
+            --text-dark: #134e4a;
+        }
+        body {
+            font-family: "Poppins", sans-serif;
+            background-color: var(--secondary);
+            color: var(--text-dark);
+        }
+        .form-card {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 10px 15px -3px rgba(15, 118, 110, 0.1);
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <nav class="bg-white shadow-lg fixed w-full z-40">
+        <div class="container mx-auto px-6 py-3">
+            <a class="text-2xl font-bold text-teal-500" href="/">
+                <i class="fas fa-hospital-user mr-2"></i> OnDoc
+            </a>
+        </div>
+    </nav>
+
+    <main class="container mx-auto px-4 pt-24 pb-12 flex justify-center">
+        <div class="w-full max-w-md form-card p-8">
+            <h2 class="text-2xl font-bold text-center text-teal-700">Edit User</h2>
+            <form method="POST" class="mt-6 space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Full Name</label>
+                    <input type="text" name="full_name" value="{{ user.full_name }}" class="form-input w-full px-4 py-2 border rounded-md" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Email Address</label>
+                    <input type="email" name="email" value="{{ user.email }}" class="form-input w-full px-4 py-2 border rounded-md" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Mobile Number</label>
+                    <input type="tel" name="mobile" value="{{ user.mobile }}" class="form-input w-full px-4 py-2 border rounded-md" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Date of Birth</label>
+                    <input type="date" name="date_of_birth" value="{{ user.date_of_birth }}" class="form-input w-full px-4 py-2 border rounded-md" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Gender</label>
+                    <select name="gender" class="form-input w-full px-4 py-2 border rounded-md" required>
+                        <option value="male" {% if user.gender == 'male' %}selected{% endif %}>Male</option>
+                        <option value="female" {% if user.gender == 'female' %}selected{% endif %}>Female</option>
+                        <option value="other" {% if user.gender == 'other' %}selected{% endif %}>Other</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Role</label>
+                    <select name="role" class="form-input w-full px-4 py-2 border rounded-md" required>
+                        <option value="patient" {% if user.role == 'patient' %}selected{% endif %}>Patient</option>
+                        <option value="doctor" {% if user.role == 'doctor' %}selected{% endif %}>Doctor</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-primary w-full text-white font-medium py-3 px-4 rounded-md">Update User</button>
+            </form>
+        </div>
+    </main>
+</body>
+</html>

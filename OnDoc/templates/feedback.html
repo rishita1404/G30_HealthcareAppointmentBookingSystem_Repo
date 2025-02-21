@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>OnDoc - Feedback</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        :root {
+            --primary: #2dd4bf;
+            --primary-dark: #0f766e;
+            --primary-light: #99f6e4;
+            --secondary: #f0fdfa;
+            --accent: #ccfbf1;
+            --text-dark: #134e4a;
+            --text-light: #f0fdfa;
+            --gray-dark: #1f2937;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--secondary);
+            color: var(--text-dark);
+            min-height: 100vh;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+        
+        .feedback-card {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 10px 15px -3px rgba(15, 118, 110, 0.1), 0 4px 6px -2px rgba(15, 118, 110, 0.05);
+        }
+        
+        .form-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(45, 212, 191, 0.2);
+        }
+        
+        .login-shape {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            overflow: hidden;
+            line-height: 0;
+            z-index: -1;
+        }
+        
+        .login-shape svg {
+            position: relative;
+            display: block;
+            width: calc(100% + 1.3px);
+            height: 150px;
+        }
+        
+        .login-shape .shape-fill {
+            fill: var(--primary);
+            opacity: 0.1;
+        }
+        
+        .bg-pattern {
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%232dd4bf' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        
+        .rating-stars {
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: flex-end;
+        }
+        
+        .rating-stars input {
+            display: none;
+        }
+        
+        .rating-stars label {
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: #d1d5db;
+            transition: color 0.2s ease;
+        }
+        
+        .rating-stars label:hover,
+        .rating-stars label:hover ~ label,
+        .rating-stars input:checked ~ label {
+            color: #fbbf24;
+        }
+    </style>
+</head>
+<body class="bg-pattern flex flex-col min-h-screen">
+    <nav class="bg-white shadow-lg fixed w-full z-40">
+        <div class="container mx-auto px-6 py-3">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <a class="text-2xl font-bold text-teal-500" href="index.html" aria-label="OnDoc Homepage">
+                        <i class="fas fa-hospital-user mr-2" aria-hidden="true"></i>
+                        OnDoc
+                    </a>
+                </div>
+                <button id="open-menu" class="md:hidden text-gray-500 hover:text-gray-700" aria-label="Open menu">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow flex items-center justify-center px-6 pt-20 pb-12">
+        <div class="w-full max-w-2xl">
+            <div class="feedback-card p-8 md:p-10">
+                <div class="text-center mb-8">
+                    <h1 class="text-3xl font-bold text-teal-700 mb-2">Your Feedback Matters</h1>
+                    <p class="text-gray-600">Help us improve your OnDoc experience</p>
+                </div>
+                
+                <form id="feedback-form" class="space-y-6">
+                    <div>
+                        <label for="feedback-type" class="block text-sm font-medium text-gray-700 mb-1">Feedback Type</label>
+                        <select id="feedback-type" name="feedback-type" class="form-input w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500" required>
+                            <option value="" disabled selected>Select feedback type</option>
+                            <option value="general">General Feedback</option>
+                            <option value="bug">Report a Bug</option>
+                            <option value="feature">Feature Request</option>
+                            <option value="doctor">Doctor Experience</option>
+                            <option value="appointment">Appointment Scheduling</option>
+                            <option value="billing">Billing & Payments</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-3">Rate Your Experience</label>
+                        <div class="rating-stars mb-2">
+                            <input type="radio" id="star5" name="rating" value="5" />
+                            <label for="star5" aria-label="5 stars"><i class="fas fa-star"></i></label>
+                            
+                            <input type="radio" id="star4" name="rating" value="4" />
+                            <label for="star4" aria-label="4 stars"><i class="fas fa-star"></i></label>
+                            
+                            <input type="radio" id="star3" name="rating" value="3" />
+                            <label for="star3" aria-label="3 stars"><i class="fas fa-star"></i></label>
+                            
+                            <input type="radio" id="star2" name="rating" value="2" />
+                            <label for="star2" aria-label="2 stars"><i class="fas fa-star"></i></label>
+                            
+                            <input type="radio" id="star1" name="rating" value="1" />
+                            <label for="star1" aria-label="1 star"><i class="fas fa-star"></i></label>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label for="subject" class="block text-sm font-medium text-gray-700 mb-1">Subject</label>
+                        <input 
+                            type="text" 
+                            id="subject" 
+                            name="subject" 
+                            class="form-input w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+                            placeholder="Brief description of your feedback"
+                            required
+                        >
+                    </div>
+                    
+                    <div>
+                        <label for="message" class="block text-sm font-medium text-gray-700 mb-1">Your Feedback</label>
+                        <textarea 
+                            id="message" 
+                            name="message" 
+                            rows="5" 
+                            class="form-input w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+                            placeholder="Please provide details about your experience or suggestion"
+                            required
+                        ></textarea>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Your Name (Optional)</label>
+                            <input 
+                                type="text" 
+                                id="name" 
+                                name="name" 
+                                class="form-input w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+                                placeholder="Enter your name"
+                            >
+                        </div>
+                        
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address (Optional)</label>
+                            <input 
+                                type="email" 
+                                id="email" 
+                                name="email" 
+                                class="form-input w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+                                placeholder="For follow-up communication"
+                            >
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label for="screenshot" class="block text-sm font-medium text-gray-700 mb-1">Attach Screenshot (Optional)</label>
+                        <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+                            <div class="space-y-1 text-center">
+                                <i class="fas fa-file-image text-gray-400 text-3xl mb-2"></i>
+                                <div class="flex text-sm text-gray-600">
+                                    <label for="file-upload" class="relative cursor-pointer bg-white rounded-md font-medium text-teal-600 hover:text-teal-500 focus-within:outline-none">
+                                        <span>Upload a file</span>
+                                        <input id="file-upload" name="file-upload" type="file" class="sr-only" accept="image/*">
+                                    </label>
+                                    <p class="pl-1">or drag and drop</p>
+                                </div>
+                                <p class="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start">
+                        <div class="flex items-center h-5">
+                            <input 
+                                id="contact-consent" 
+                                name="contact-consent" 
+                                type="checkbox" 
+                                class="h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-300 rounded"
+                            >
+                        </div>
+                        <div class="ml-3 text-sm">
+                            <label for="contact-consent" class="font-medium text-gray-700">Contact permission</label>
+                            <p class="text-gray-500">I agree that OnDoc may contact me regarding this feedback.</p>
+                        </div>
+                    </div>
+                    
+                    <button 
+                        type="submit" 
+                        class="btn-primary w-full text-white font-medium py-3 px-4 rounded-md shadow-sm"
+                    >
+                        Submit Feedback
+                    </button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <div class="login-shape">
+        <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
+        </svg>
+    </div>
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-semibold mb-4 text-teal-400">OnDoc</h3>
+                    <p class="text-gray-400 mb-4">Making healthcare accessible to everyone, everywhere.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" aria-label="Facebook" class="text-gray-400 hover:text-teal-300 transition">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" aria-label="Twitter" class="text-gray-400 hover:text-teal-300 transition">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" aria-label="Instagram" class="text-gray-400 hover:text-teal-300 transition">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" aria-label="LinkedIn" class="text-gray-400 hover:text-teal-300 transition">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 text-teal-400">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#find-doctors" class="text-gray-400 hover:text-teal-300 transition">Find Doctors</a></li>
+                        <li><a href="#services" class="text-gray-400 hover:text-teal-300 transition">Our Services</a></li>
+                        <li><a href="#about" class="text-gray-400 hover:text-teal-300 transition">About Us</a></li>
+                        <li><a href="#testimonials" class="text-gray-400 hover:text-teal-300 transition">Testimonials</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 text-teal-400">Support</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-teal-300 transition">Help Center</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-teal-300 transition">FAQs</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-teal-300 transition">Contact Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-teal-300 transition">Feedback</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 text-teal-400">Legal</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-teal-300 transition">Privacy Policy</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-teal-300 transition">Terms of Service</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-teal-300 transition">Cookie Policy</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-teal-300 transition">HIPAA Compliance</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
+                <p>&copy; 2025 OnDoc. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // File upload preview
+        const fileUpload = document.getElementById('file-upload');
+        const uploadArea = fileUpload.parentElement.parentElement.parentElement;
+        
+        fileUpload.addEventListener('change', function(e) {
+            if (e.target.files.length > 0) {
+                const fileName = e.target.files[0].name;
+                const fileSize = (e.target.files[0].size / 1024 / 1024).toFixed(2);
+                
+                // Update the upload area text
+                const uploadText = uploadArea.querySelector('p.text-xs');
+                uploadText.textContent = `Selected: ${fileName} (${fileSize}MB)`;
+                
+                // Add a success border
+                uploadArea.classList.add('border-teal-500');
+                uploadArea.classList.remove('border-gray-300');
+            }
+        });
+        
+        // Drag and drop functionality
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            uploadArea.addEventListener(eventName, preventDefaults, false);
+        });
+        
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        
+        ['dragenter', 'dragover'].forEach(eventName => {
+            uploadArea.addEventListener(eventName, highlight, false);
+        });
+        
+        ['dragleave', 'drop'].forEach(eventName => {
+            uploadArea.addEventListener(eventName, unhighlight, false);
+        });
+        
+        function highlight() {
+            uploadArea.classList.add('border-teal-500');
+            uploadArea.classList.remove('border-gray-300');
+        }
+        
+        function unhighlight() {
+            uploadArea.classList.remove('border-teal-500');
+            uploadArea.classList.add('border-gray-300');
+        }
+        
+        uploadArea.addEventListener('drop', handleDrop, false);
+        
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            fileUpload.files = files;
+            
+            // Trigger change event
+            const event = new Event('change', { bubbles: true });
+            fileUpload.dispatchEvent(event);
+        }
+        
+        // Form submission (prevent default for demo)
+        const feedbackForm = document.getElementById('feedback-form');
+        feedbackForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Simple validation
+            const feedbackType = document.getElementById('feedback-type').value;
+            const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value;
+            
+            if (!feedbackType || !subject || !message) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+            
+            // Here you would typically send the form data to your server
+            console.log('Feedback submitted!');
+            
+            // Show success message
+            alert('Thank you for your feedback! We appreciate your input and will use it to improve our services.');
+            
+            // Reset form
+            feedbackForm.reset();
+            uploadArea.classList.remove('border-teal-500');
+            uploadArea.classList.add('border-gray-300');
+            const uploadText = uploadArea.querySelector('p.text-xs');
+            uploadText.textContent = 'PNG, JPG, GIF up to 10MB';
+        });
+    </script>
+</body>
+</html>
